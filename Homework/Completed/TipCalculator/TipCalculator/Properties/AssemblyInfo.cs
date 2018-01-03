@@ -7,9 +7,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("TipCalculator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("JulMar Technology, Inc.")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("(C) 2014 JulMar Technology, Inc.")]
+[assembly: AssemblyCopyright("Copyright (c) 2018 Xamarin Inc., Microsoft.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
