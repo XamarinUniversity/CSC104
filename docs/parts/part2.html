@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 2: Adding onto our Calculator</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Learning C# with Xamarin: Adding behavior into our apps</header>
+
+   	<section id="main">
+
+		<h1 id="page-title"></h1>
+
+		<h2>Duration</h2>
+		<p>15 minutes</p>
+
+		<!-- - - - - - - - - Goals - - - - - - - - -->
+
+		<h2 id="goals">Lab goals</h2>
+		<p>
+			In this exercise, you will add an additional calculation into the <code>Calculator</code> class that you began in Part 1. This part adds method overloading and return values to your class. The high-level goals for the exercise are listed below: 
+		</p>
+		<ul>
+			<li>Provide an overloaded version of the <code>Divide</code> method to perform integer division.</li>
+			<li>Return the result of each calculation from each method as a return value instead of setting the field like you did in the first exercise.</li>
+			<li>Update the <code>Main</code> method using the <code>Calculator</code> to support the new division method and the return result value.</li>
+		</ul>
+
+		<p>
+			Below is sample output from the finished application - notice the new &quot;I&quot; option.
+	  </p>
+		<img src="./res/images/Part2.Completed.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" />
+
+		<!-- - - - - - - - - Supplied resources - - - - - - - - -->
+
+		<h2>Required assets</h2>
+		<p>
+			The provided <strong>Lab 02 Resources</strong> folder contains resources that you will need in order to complete the lab:
+
+			<ul class="indent-medium">
+				<li>
+					The <strong>Lab2.Start</strong> folder contains a starter solution you can use if you did not do the previous exercise, or if you would like to begin with a fresh project.
+				</li>
+
+				<li>
+					The <strong>Lab2.Completed</strong> folder contains a completed version of the lab you can use to check your work.
+				</li>
+			</ul>
+		</p>
+		<p>
+			Please make sure you have this folder before you begin.
+		</p>
+
+		<div class="hintblock">
+			<strong>Tip:</strong> If you are doing this exercise live in a session, make sure to make good use
+			of the instructor, they are online to answer any questions you have!
+		</div>
+
+		<!-- - - - - - - - - Steps - - - - - - - - -->
+
+		<h1 id="steps">Steps</h1>
+
+		<p>
+      Here are step-by-step instructions for completing this exericise. You can also utilize the high-level goals defined above to work through the code, relying on the below instructions to fill in any necessary details.
+		</p>
+
+		<h2>Implement method overloading in the <code>Calculator</code> class</h2>
+		<p>
+			In this section, you will build on the previous Calculator application by creating a method with the same name but different paraments  inside the <code>Calculator</code> class.
+	  </p>
+
+		<ol>
+			<li>
+				You can continue on from your previous exercise, or open the starter <b>Calculator.sln</b> contained in the <b>Lab 02 Resources</b> folder.</li>
+			<li>
+           Open the <b>Calculator.cs</b> source file and add a new version of the <code>Divide</code> method that takes two integers as parameters and returns nothing (void).
+           	<ul class="indent-none">
+	           	<li>Use the name <code>Divide</code>, even though the class already has a method with that name. Since this method has different parameter types, it will be considered unique in the class. This is an example of <em>method overloading</em>.</li>
+	           	<li>Use the the modulo division (<b>%</b>) operator to get a remainder and assign it to the <code>Answer</code> field. Make sure to include the same test for zero that you did in the other <code>Divide</code> method!</li>
+        		</ul>
+        	</li>
+        	<li>Build the program (<b>Build > Build All</b>) to make sure you don't have any compile errors.
+
+<p><a href="#" onclick="toggleCode(this, 'addOverloadedMethod'); return false;" class="uiitem">Show Code</a><div id="addOverloadedMethod" style="display:none;">
+<pre class="prettyprint">
+public void Divide(int number1, int number2)
+{
+   if (number2 == 0) {
+       Answer = 0;
+   } else {
+       Answer = number1 % number2;
+   }
+}
+</pre></div></p>
+
+			<li>Open the <b>Program.cs</b> file and modify the code to call the new <code>Divide</code> method when you use the &quot;I&quot; key. This requires three changes:
+				<ul class="indent-none">
+					<li>Add &quot;I&quot; into the <code>Console.Write</code> prompt around line 17.</li>
+					<li>Add in a new <code class="prettyprint">case</code> into the <code class="prettyprint">switch</code> block which calls the new <code>Divide</code> method. This will require that you cast your two input numbers to integers - here's the code you need to add:
+<pre class="prettyprint codeblock">
+case 'I':
+	calc.Divide((int)first, (int)second);
+	break;
+</pre>
+					</li>
+					<li>Add the &quot;I&quot; into the error <code>Console.WriteLine</code> when no valid input is detected in the <code class="prettyprint">default</code> case.</li>
+				</ul>
+			</li>
+		</li>
+<p><a href="#" onclick="toggleCode(this, 'fixupMain'); return false;" class="uiitem">Show Code</a><div id="fixupMain" style="display:none;">
+<pre class="prettyprint">
+public static void Main ( string[] args )
+{
+    Console.Write( "First number? " );
+    float first = float.Parse( Console.ReadLine( ) );
+    Console.Write( "Second number? " );
+    float second = float.Parse( Console.ReadLine( ) );
+
+    Calculator calc = new Calculator();
+
+    while ( true ) {
+        Console.Write( "A)dd S)ubtract M)ultiply D)ivide, <span class="highlight">I)nteger division,</span> Q)uit: " );
+        var operation = Console.ReadLine( ).ToUpper( )[0];
+
+        if ( operation == 'Q' )
+            break;
+
+        switch ( operation ) {
+            case 'A':
+                calc.Add(first, second);
+                break;
+            case 'S':
+                calc.Subtract(first, second);
+                break;
+            case 'M':
+                calc.Multiply(first, second);
+                break;
+            case 'D':
+                calc.Divide(first, second);
+                break;
+            <span class="highlight">case 'I':
+                calc.Divide((int)first, (int)second);
+                break;</span>
+            default:
+                Console.WriteLine( "Please enter A, S, M, D<span class="highlight">, I</span> or Q" );
+                break;
+        } 
+        Console.WriteLine("Your answer is {0}", calc.Answer);
+    } 
+}
+</pre></div></p>
+			<li>Build and run the application to try out your new integer division support!</li>
+		</ol>
+
+
+		<h2>Use the <code>return</code> keyword to return values from methods</h2>
+		<p>
+			One problem we have right now is that we are only returning the remainder from our integer division method. It would be helpful to return both the quotient and the remainder. We could do this by setting up another field, or we could use the <code>return</code> keyword to return a value directly from our <code>Divide</code> method. Let's take this approach now.
+	  	</p>
+
+		<ol>
+			<li>Open the <b>Calculator.cs</b> file and locate your integer <code>Divide</code> method you added.</li>
+			<li>Change the method signature to return an <code>int</code> instead of <code>void</code>.</li>
+			<li>Modify the code to set the <code>Answer</code> field to the normal division result (<b>/</b>) and return the remainder (<b>%</b>) result.</li>
+
+
+<p><a href="#" onclick="toggleCode(this, 'addReturnValue'); return false;" class="uiitem">Show Code</a><div id="addReturnValue" style="display:none;">
+<pre class="prettyprint">
+public <span class="highlight">int</span> Divide(int number1, int number2)
+{
+    if (number2 == 0) {
+        Answer = 0;
+        <span class="highlight">return 0;</span>
+    }
+
+    Answer = number1 / number2;
+    <span class="highlight">return number1 % number2;</span>
+}
+</pre></div></p>
+
+			<li>Next, open the <b>Program.cs</b> file again and modify it to use both the return value and the <code>Answer</code> field with the following steps:
+				<ul class="indent-none">
+					<li>Add a new variable, named <code>remainder</code> in the <code>Main</code> method to hold the remainder result - initialize it to zero since it's only assigned with the new <code>Divide</code> method. This should be located <em>inside</em> the <code>while</code> loop so it gets assigned to zero each time.</li>
+					<li>Assign the new field to the return value from your integer <code>Divide</code> method.</li>
+					<li>Add an <code>if-else</code> condition around your <code>Console.WriteLine</code> output to print the remainder along with the answer if the new remainder field is non-zero. Here's an example of the <code>Console.WriteLine</code> to use:
+				</ul>
+<pre class="prettyprint codeblock">
+Console.WriteLine("Your answer is {0} with a remainder of {1}", 
+                  calc.Answer, remainder);
+</pre>
+			</li>
+<p><a href="#" onclick="toggleCode(this, 'fullCode'); return false;" class="uiitem">Show Code</a><div id="fullCode" style="display:none;">
+<pre class="prettyprint">
+public static void Main ( string[] args )
+{
+    Console.Write( "First number? " );
+    float first = float.Parse( Console.ReadLine( ) );
+    Console.Write( "Second number? " );
+    float second = float.Parse( Console.ReadLine( ) );
+
+    Calculator calc = new Calculator();
+
+    while ( true ) {
+        Console.Write( "A)dd S)ubtract M)ultiply D)ivide, I)nteger division, Q)uit: " );
+        var operation = Console.ReadLine( ).ToUpper( )[0];
+
+        if ( operation == 'Q' )
+            break;
+
+        <span class="highlight">int remainder = 0;</span>
+
+        switch ( operation ) {
+            case 'A':
+                calc.Add(first, second);
+                break;
+            case 'S':
+                calc.Subtract(first, second);
+                break;
+            case 'M':
+                calc.Multiply(first, second);
+                break;
+            case 'D':
+                calc.Divide(first, second);
+                break;
+            case 'I':
+                <span class="highlight">remainder = </span>calc.Divide((int)first, (int)second);
+                break;
+            default:
+                Console.WriteLine( "Please enter A, S, M, D, I or Q" );
+                break;
+        } 
+
+        <span class="highlight">if (remainder != 0) {
+            Console.WriteLine("Your answer is {0} with a remainder of {1}", calc.Answer, remainder);
+
+        } else {
+            Console.WriteLine("Your answer is {0}", calc.Answer);
+        }</span>
+    } 
+}
+</pre></div></p>	
+
+			<li>Build and run your program to see the final results:</li>
+		</ol>
+		<img src="./res/images/Part2.Completed.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" />
+
+
+		<!-- - - - - - - - - Summary - - - - - - - - -->
+
+		<h1>Summary</h1>
+		<p>
+			In this lab, you wrote a <code>Calculator</code> class with five methods that included add, subtract, multiply and two divide showing method overloading.
+			This let you practice with a few common patterns related to methods: parameter passing, use of fields inside methods, and return values.
+		</p>
+
+		<div class="align-right">
+			<a href="../Start%20Here.html">Go Back</a>
+		</div>
+
+	</section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft.</footer>
+</body>
+</html>

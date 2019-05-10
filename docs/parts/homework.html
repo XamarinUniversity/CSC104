@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Homework</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+	<header>Learning C# with Xamarin: Adding behavior to classes</header>
+
+	<section id="main">
+
+		<h1 id="page-title"></h1>
+
+		<h2>Duration</h2>
+		<p>30 minutes</p>
+
+		<!-- - - - - - - - - Goals - - - - - - - - -->
+
+		<h2 id="goals">Homework goals</h2>
+		<p>
+			Here you will write a console program to calculate the appropriate tip for a given amount. Sample output from the completed application looks like:
+		</p>
+		
+		<img src="./res/images/Homework.Completed.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" />
+
+		<!-- - - - - - - - - Supplied resources - - - - - - - - -->
+
+		<h2>Required assets</h2>
+		<p>
+			The provided <strong>Homework Resources/Completed</strong> folder contains a completed version of the program you can use to check your work. Your solution does not need to look exactly like this code, however the output should be correct as shown above.
+		</p>
+
+		<!-- - - - - - - - - Steps - - - - - - - - -->
+
+		<h1 id="steps">Steps</h1>
+		<p>Here are the steps you need to perform to create this tip calculator program.</p>
+
+		<h2>Create the tip calculator</h2>
+		<ol>
+			<li>
+				Create a new <strong>Console Project</strong> in <strong>Visual Studio</strong>.
+				Name the Project and Solution <strong>TipCalculator</strong>.
+			</li>
+
+			<img src="./res/images/HW_Console.png" width="700" />
+
+			<li>
+				Add a new class to the project named <code>Tipper</code>, make sure to put it in its own file - you can use the <strong>Add &gt; New File</strong> menu item to create a new C# class.
+			</li>
+
+			<li>
+				Add a <code>public</code> auto-property of type <code>double</code> inside the <code>Tipper</code> class to store the total amount of the restaurant bill and name it Amount.
+			</li>
+
+			<li>
+				Implement two <code>public</code> methods inside the <code>Tipper</code> class to calculate the tip:
+				<ul class="indent-none">
+					<li>
+						<code>CalculateTip</code>: takes one <code>double</code> parameter which represents the desired tip percentage, computes the tip, and returns the tip amount (as a <code>double</code>).
+					</li>
+
+					<li>
+						<code>CalculateTip</code>: takes no parameters, computes a 15% tip, and returns the tip amount. Note that this is <em>method overloading</em> since the two <code>CalculateTip</code> methods have the same name. This is legal in C# since the parameter lists are different (i.e. one of the methods takes 1 parameter and the other takes 0 parameters).
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				Implement one <code>public</code> method inside the <code>Tipper</code> class to split the bill based	on the number of diners. Name the method <code>Divvy</code>. It must take
+				an <code>int</code> parameter which specifies the number of diners, calculate the amount each should pay if the bill is split evenly, and return that amount.
+			</li>
+
+			<li>
+				Open <strong>Program.cs</strong>. You will be adding code to <code>Main</code> to allow the user to calculate tips and divvy restaurant bills.
+			</li>
+
+			<li>
+				Create an instance of the <code>Tipper</code> class.
+			</li>
+
+			<li>
+				Add a loop so the remaining steps can be done repeatedly until the user quits the program. There are two common ways to write a "forever" loop (see below), please use whichever you prefer. Use a <code>break</code> inside the loop to exit the loop when the user asks to quit the program.
+<pre class="prettyprint codeblock">
+// Infinite for loop
+for (;;)
+{
+}
+
+// Infinite while loop
+while (true)
+{
+}
+</pre>
+				The remaining steps will go inside the loop.
+			</li>
+
+			<li>
+				Ask the user for an amount and read the amount of a restaurant bill from the user and load it into the field of the <code>Tipper</code> object. You will need to convert the <code>string</code> input from <code>Console.ReadLine</code> into a <code>double</code>. (Hint: <code>double.Parse</code> is your friend here!)
+			</li>
+
+			<li>
+				Ask the user which operation they would like to perform (bad tip, OK tip, good tip, or divvy bill). Read the user response and obtain a single character to represent the operation. This code is fairly tricky so it is given below; you can use this code exactly as-is in your program.
+<pre class="prettyprint codeblock">
+Console.Write("B)ad tip O)k tip G)ood Tip D)ivvy the bill Q)uit: ");
+char operation = Console.ReadLine().ToUpper()[0];
+</pre>
+			</li>
+
+			<li>
+				Perform the calculation the user requested based on the operation they entered. Here are a few notes to help you:
+				<ul class="indent-none">
+					<li>
+						If the user enters 'B', 'O', or 'G', calculate and output a tip of 10%, 15%, or 20% respectively. Use the overloaded version of the <code>CalculateTip</code> for the 15% version.
+					</li>
+					<li>
+						If the user enters 'D', you will need to read the number of diners from the user and then	calculate and output the per-diner amount.
+					</li>
+					<li>
+						If the user enters 'Q', you should exit the loop (which will then exit the program).
+					</li>
+					<li>You can use either a <code>switch</code> statement like we did in the lab exercise, or use a set of <code>if-else</code> statements to flesh out this logic. The completed solution will use a combination of the two if you'd like to see how that might work.</li>
+				</ul>
+			</li>
+
+			<li>
+				Build and run the program to test your work.
+			</li>
+		</ol>
+
+		<!-- - - - - - - - - Summary - - - - - - - - -->
+
+		<h1>Summary</h1>
+		<p>
+		This program let you practice with classes and methods. In particular, you saw a class used
+		in its role as "container for related fields and methods". Grouping these together helps you
+		organize your code in a logical way which should make it easier to work on the code in the
+		future. For example, if you need to modify or extend the tip-calculation code you will know
+		right where to find since all the tip-related code is inside the <code>Tipper</code> class.
+		<br />
+		You can examine the final (completed) project in the <strong>Exercise 1/Homework</strong> folder.
+		</p>
+
+		<div class="align-right">
+			<a href="../Start Here.html">Go Back</a>
+		</div>
+	</section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+	 <footer>Copyright (C) 2018 Xamarin Inc., Microsoft.</footer>
+
+</body>
+
+</html>

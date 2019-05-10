@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 1: Building a Calculator</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Learning C# with Xamarin: Adding behavior into our apps</header>
+
+   	<section id="main">
+
+		<h1 id="page-title"></h1>
+
+		<h2>Duration</h2>
+		<p>15 minutes</p>
+
+		<!-- - - - - - - - - Goals - - - - - - - - -->
+
+		<h2 id="goals">Lab goals</h2>
+
+		<p>
+			In this exercise you will define a new <code>Calculator</code> class with some simple methods to perform arithmetic operations. You will then use the class with an existing program that has been created for you to read two numeric values and a math operation from the console and print the result of the selected operation applied to the two values.
+			The high-level goals for the exercise are listed below: 
+		</p>
+
+		<ol>
+         <li>Create a <code>Calculator</code> class.</li>
+         <li>Define methods to perform addition, subtraction, multiplication and division on two floating point values.</li>
+         <li>Modify the existing <code>Program</code> class which has been defined to create an instance (object) of your <code>Calculator</code>.</li>
+         <li>Call the appropriate math operation on the <code>Calculator</code>, passing it the two floating point values read from the console.</li>
+         <li>Display the result of the operation by reading a field defined on the <code>Calculator</code> class.</li>
+		</ol>
+
+		<p>
+			Below is output from the finished application showing sample data from two different
+			<code>Calculator</code> objects.
+		</p>
+		<img src="./res/images/Part1.Completed.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" width="676" height="318" />
+
+		<!-- - - - - - - - - Supplied resources - - - - - - - - -->
+
+		<h2>Required assets</h2>
+		<p>
+      There are two C# projects in the <strong>Lab 01 Resources</strong> folder, one is the starting solution you will begin with, and the second is a completed version of the program you can refer to at the end of the exercise to check your work. Please make sure you have this folder before you begin.
+		</p>
+
+		<div class="hintblock">
+			<strong>Tip:</strong> If you are doing this exercise live in a session, make sure to make good use	of the instructor, they are available to answer any questions you have!
+		</div>
+
+		<!-- - - - - - - - - Steps - - - - - - - - -->
+
+		<h1 id="steps">Steps</h1>
+		<p>
+      Here are step-by-step instructions for completing this exericise. You can also utilize the high-level goals defined above to work through the code, relying on the below instructions to fill in any necessary details.
+		</p>
+
+		<h2>Open the starter project</h2>
+		<ol>
+	     <li>Locate the starter project contained in the <b>Exercise 1/Start</b> folder included with this exercise and open the <strong>Calculator.sln</strong> file using either Visual Studio or Visual Studio.</li>
+        <li>Examine the <b>Program.cs</b> file which is already present in the project. Notice that it defines your main entry point (<code>Main</code>) as a method in a class named <code>Program</code>. This is the place your program will begin execution. It currently performs the following steps:
+         <ul class="indent-none">
+            <li>Prompts the user, using the <code>Console</code>, for two numbers.</li>
+            <li>Enters an infinite (never-ending) <code>while</code> loop which reads an operation to add, subtract, multiply, divide or 'Q' for quit.</li>
+            <li>Has an <code>if</code> statement to check for 'Q' to exit the loop using a <code>break</code> statement (remember, this terminates the loop or switch statement being executed).</li>
+            <li>Uses a <code>switch</code> statement to evaluate the first letter of the input (upper-cased), with placeholder comments for where you will use your <code>Calculator</code> class.</li>
+            <li>Has a placeholder comment to output the result of the operation.</li>
+         </ul>
+         <li>Identify all the <code class="prettyprint">// TODO:</code> comments in the code - this is where you will make your changes to this class. Make sure you understand the basic operation of this program before continuing.</li>
+		</ol>
+
+		<h2>Create a <code>Calculator</code> class</h2>
+         <p>In this section, you will define a class named <code>Calculator</code> which will be used to perform mathmatical operations (Add, Subtract, Multiply and Divide).</p>
+		<ol>
+			<li>
+            The first step is to add a new class file into the project. You can just add a simple text file with the proper extension (<b>.cs</b>), however a better way is to let the IDE know what you want to add through the <strong>New File</strong> dialog which displays a set of common file types to create. You access this dialog using the <strong>File &gt; New &gt; File</strong> menu option. 
+				<img class="indent-none" src="./res/images/Part1.NewFileMenu.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" />
+			</li>
+			<li>
+				In the <strong>New File</strong> dialog, choose the <strong>Empty Class</strong> entry from the <strong>General</strong> category, enter <strong>Calculator</strong> as the <strong>Name</strong>, then click the <strong>New</strong> button (see below).
+				Visual Studio will generate an empty file named <strong>Calculator.cs</strong> for you. 
+				<img src="./res/images/Part1.NewFileDialog.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" class="indent-none" />
+			</li>
+
+			<li>
+            Examine the code which has been created for you. You should have a new public class named <b>Calculator</b> in the project namespace (which is also Calculator - this was defined when we created the initial project and matches the name of the project itself). The code should look something like:
+         </li>
+
+<pre class="prettyprint codeblock">
+using System;
+
+namespace Calculator
+{
+    public class Calculator
+    {
+        public Calculator()
+        {
+        }
+    }
+}
+</pre>
+         <li>
+            There is one part you may not recognize - that's the odd-looking method defined in the class:
+<pre class="prettyprint codeblock">
+public class Calculator
+{
+<span class="highlight">     public Calculator()
+     {
+     }</span>
+}
+</pre>
+         This is a special method called a <em>constructor</em> which can be used to perform initialization when an instance of the class is created. We are going to talk about these in a future module and we don't need this, so you can delete the definition from your code (the highlighted bits above).
+         </li>
+      </ol>
+
+      <h2>Define methods to perform arithmetic operations</h2>
+      <p>
+      Next, let's define some public methods on the calculator class to perform simple arithmetic calculations on two floating point numbers. We want to have methods to Add, Subtract, Multiply and Divide.</p>
+      <ol>
+			<li>
+				Let's start with <b>Add</b>. Define a method named <code>Add</code> that takes two <code>float</code> parameters, you can name them whatever you like, and returns nothing (hint: <code>void</code>).
+         </li>
+<pre class="prettyprint codeblock">
+...
+
+public class Calculator
+{
+<span class="highlight">    public void Add(float number1, float number2)
+    {
+    }</span>
+}
+</pre>
+         <li>
+         Next, let's provide some code for the method. Create a public field named <b>Answer</b> of type <code>float</code> in the class to hold our calculation result, place this code into the <em>class</em> portion, not into the <code>Add</code> method.
+         </li>
+
+<pre class="prettyprint codeblock">
+...
+
+public class Calculator
+{
+    <span class="highlight">public float Answer;</span>
+
+    public void Add(float number1, float number2)
+    {
+    }
+}
+</pre>
+         <li>
+         Finally, assign the <code>Answer</code> field to the added value of your two numbers, remember we use the <b>+</b> symbol to add things in C#.
+         </li>
+
+<pre class="prettyprint codeblock">
+...
+
+public class Calculator
+{
+    public float Answer;
+
+    public void Add(float number1, float number2)
+    {
+        <span class="highlight">Answer = number1 + number2;</span>
+    }
+}
+</pre>
+         <li>Build the application (<strong>Build &gt; Build All</strong> (or Solution) on the menu) to make sure it compiles correctly, correct any errors that are reported by comparing your code against the above example.</li>
+
+          <li>
+          Now, complete the other three operators in the same way using three methods: <code>Subtract</code>, <code>Multiply</code> and <code>Divide</code>.
+            <ul class="indent-none">
+               <li>All three methods should take two <code>float</code> parameters and return <code>void</code>.</li>
+               <li>Assign the result of the operation to the <code>Answer</code> field.</li>
+               <li>For an extra challenge, the <code>Divide</code> method should make sure the second number (the divisor) is not zero using an <code>if</code> statement, if you find a zero, set the <code>Answer</code> field to <b>-1</b> to indicate an error.</li>
+            </ul>
+          You can check your code against the below example if you'd like a little help.
+          </li>
+       </ol>
+
+<p><a href="#" onclick="toggleCode(this,'mathOps');return false;" class="uiitem">Show Code</a><div id="mathOps" style="display:none;">			
+<pre class="prettyprint codeblock">
+...
+
+public class Calculator
+{
+    public float Answer;
+
+    public void Add(float number1, float number2)
+    {
+        Answer = number1 + number2;
+    }
+
+<span class="highlight">    public void Subtract(float number1, float number2)
+    {
+        Answer = number1 - number2;
+    }
+
+    public void Multiply(float number1, float number2)
+    {
+        Answer = number1 * number2;
+    }
+
+    public void Divide(float number1, float number2)
+    {
+        if (number2 == 0) {
+            Answer = -1;
+        } else {
+            Answer = number1 / number2;
+        }
+    }</span>
+}
+</pre>
+</div></p>
+
+      <ol start="7">
+         <li>Make sure to build the application before moving to the next step (<strong>Build &gt; Build All</strong> (or Solution) on the menu) to make sure it compiles correctly, correct any errors that are reported by comparing your code against the above example.</li>
+		</ol>
+
+      <h2>Modify the existing <code>Program</code> class to use the <code>Calculator</code></h2>
+      <p>
+      Now it's time to use our new <code>Calculator</code> class. Let's modify the supplied <code>Main</code> method defined in the <code>Program</code> class.
+      </p>
+      <ol class="indent-none">
+         <li>
+         Open the <strong>Program.cs</strong> file (double-click on the file in the Solution Explorer).
+         </li>
+         <li>Recall the <code class="prettyprint">// TODO:</code> comments you looked at earlier - using these as a guide, perform the steps indicated:
+            <ul style="indent-none">
+               <li>Create a <code>Calculator</code> object using <code>new</code>.</li>
+               <li>Perform each operation (add, subtract, multiply and divide) using the <code>Calculator</code> object.</li>
+               <li>Output the result (<code>Answer</code>) field from the <code>Calculator</code> using <code>Console.WriteLine</code>. Remember, we use <em>placeholders</em> to indicate where we want parameters to be inserted, so you could use the string <code class="prettyprint">&quot;Your answer is {0}&quot;</code> to reproduce the output shown in the initial screen shot at the start of the exercise. Make sure to pass the <code>Answer</code> field!</li>
+            </ul>
+         </li>
+      </ol>
+
+<p><a href="#" onclick="toggleCode(this,'programEdits');return false;" class="uiitem">Show Code</a><div id="programEdits" style="display:none;">       
+<pre class="prettyprint codeblock">
+using System;
+
+namespace Calculator
+{
+    public class Program
+    {
+        public static void Main ( string[] args )
+        {
+            Console.Write( "First number? " );
+            float first = float.Parse( Console.ReadLine( ) );
+            Console.Write( "Second number? " );
+            float second = float.Parse( Console.ReadLine( ) );
+
+            <span class="highlight">Calculator calc = new Calculator();</span>
+
+            while ( true ) {
+                Console.Write( "A)dd S)ubtract M)ultiply D)ivide Q)uit: " );
+                var operation = Console.ReadLine( ).ToUpper( )[0];
+
+                if ( operation == 'Q' )
+                    break;
+
+                switch ( operation ) {
+                    case 'A':
+                        <span class="highlight">calc.Add(first, second);</span>
+                        break;
+                    case 'S':
+                        <span class="highlight">calc.Subtract(first, second);</span>
+                        break;
+                    case 'M':
+                        <span class="highlight">calc.Multiply(first, second);</span>
+                        break;
+                    case 'D':
+                        <span class="highlight">calc.Divide(first, second);</span>
+                        break;
+                    default:
+                        Console.WriteLine( "Please enter A, S, M, D or Q" );
+                        break;
+                } 
+                <span class="highlight">Console.WriteLine("Your answer is {0}", calc.Answer);</span>
+            } 
+        }
+    }
+}
+</pre>
+</div></p>
+
+		<!-- - - - - - - - - Summary - - - - - - - - -->
+
+  <h1>Summary</h1>
+   <p>
+		In this lab exercise, you created a new <code>Calculator</code> class and used it to display the results of various math operations. In the next exercise, we will continue editing this calculator class by supporting another math operation - modulo division.
+   </p>
+
+		<div class="align-right">
+			<a href="../Start%20Here.html">Go Back</a>
+		</div>
+
+	</section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+ <footer>Copyright (C) 2018 Xamarin Inc., Microsoft.</footer>
+</body>
+</html>
