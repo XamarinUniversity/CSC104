@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 3: Working with Properties</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Learning C# with Xamarin: Adding behavior into our apps</header>
+
+   	<section id="main">
+
+		<h1 id="page-title"></h1>
+
+		<h2>Duration</h2>
+		<p>10 minutes</p>
+
+		<!-- - - - - - - - - Goals - - - - - - - - -->
+
+		<h2 id="goals">Lab goals</h2>
+
+		<p>
+			Here you will edit the implementation of a <code>Calculator</code> class that you began in Part 1. This exercise will continue to build on the calculator by replacing the field we used to store the answer with a property. The high-level goals for the exercise are: 
+	  	</p>
+		<ul>
+			<li>Replace the <code>Answer</code> field in our calculator with a read-only property.</li>
+			<li>Simplify the property creation by using a C# Auto Property.</li>
+		</ul>
+
+		<p>
+			Below is sample output from the finished application.
+		</p>
+		<img src="./res/images/Part3.Completed.png" alt="- - - - - - - - - MISSING IMAGE - - - - - - - - - -" />
+
+		<!-- - - - - - - - - Supplied resources - - - - - - - - -->
+		<h2>Required assets</h2>
+		<p>
+			The provided <strong>Lab 03 Resources</strong> folder contains resources that you will need in order to complete the lab:
+
+			<ul class="indent-medium">
+				<li>
+					The <strong>Start</strong> folder contains a starter solution you can use if you did not complete the previous exercise, or if you would like to begin with a fresh project.
+				</li>
+
+				<li>
+					The <strong>Completed</strong> folder contains a completed version of the lab you can use to check your work.
+				</li>
+			</ul>
+		</p>
+		<p>
+			Please make sure you have this folder before you begin.
+		</p>
+
+		<div class="hintblock">
+			<strong>Tip:</strong> If you are doing this exercise live in a session, make sure to make good use	of the instructor, they are online to answer any questions you have!
+		</div>
+
+		<!-- - - - - - - - - Steps - - - - - - - - -->
+
+		<h1 id="steps">Steps</h1>
+		<p>
+      Here are step-by-step instructions for completing this exericise. You can also utilize the high-level goals defined above to work through the code, relying on the below instructions to fill in any necessary details.
+		</p>
+
+		<h2>Implement the <code>Calculator</code> answer using a property</h2>
+		<p>
+		In this part, we will hide the implementation of our <code>Answer</code> field through the use of a property.
+		</p>
+
+		<ol>
+			<li>Open the <b>Calculator.sln</b> file contained in the starter portion of the <b>Exercise 3</b> folder.</li>
+			<li>Open the <strong>Calculator.cs</strong> file and rename the <code>Answer</code> field to lower case - <code>answer</code>, also change it to be a <code>private</code> field. This is how fields should be defined since this is really an implementation detail of the class and not something we want the clients using the class to know or care about.</li>
+			<li>Next, add a property to access the field, here's the code you need:</li>
+<pre class="prettyprint codeblock">
+private float answer;
+
+public float Answer
+{
+	get { return answer; }
+	set { answer = value; }
+}
+</pre>
+			<li>Build and run your program to test your work. Notice that it all still works properly - even though the field is no longer being exposed from the class. This is an important point - the access to the property <em>looks like a field</em> to the client.</li>
+			<li>Open the <code>Main</code> method, and somewhere in the loop try to <em>change</em> the <code>Answer</code> property - assign it to some other value. Does this work? Should it work?</li>
+		</ol>
+
+		<h2>Change the property to be read-only</h2>
+		<p>
+			As you saw in the last step, we are allowing too much access to the <code>Answer</code> property currently. The <code>Main</code> method should <em>not</em> be able to change the answer - this should be strictly set by the <code>Calculator</code> class. We can fix this by making the property read-only so that only the <code>Calculator</code> class is allowed to change it.
+		</p>
+		<ol>
+			<li>Remove the <code>set</code> code from the property - this will make the property read-only.</li>
+			<li>Try to build the program. What happens?</li>
+
+			<div class="hintblock">
+			Because the property no longer has a setter, the <code>Calculator</code> class can't change the value using the property! Instead, we need to use the <code>answer</code> field in our class to adjust the value.
+			</div>
+
+			<li>Change all the places where you are assigning the property inside the <code>Calculator</code> to use the field instead, so:
+<pre class="prettyprint codeblock">
+public void Add(float number1, float number2)
+{
+    Answer = number1 + number2;
+}
+</pre>
+			becomes:
+<pre class="prettyprint codeblock">
+public void Add(float number1, float number2)
+{
+    <span class="highlight">answer</span> = number1 + number2;
+}
+</pre>
+			</li>
+			<li>Build and run the program again, it should continue to work just fine - but now we have ensured the code cannot misuse the <code>Answer</code> property.</li>
+		</ol>
+
+		<h2>Change the property to be an Auto Property</h2>
+		<p>
+			The way we've created this property is very common, and is totally fine - however notice that we aren't providing any additional logic to the property beyond getting the field value. This is a perfect case for using an <em>auto property</em> in C#.
+		</p>
+		<ol>
+			<li>Remove the <code>answer</code> field from the <code>Calculator</code> class. We won't need a field for storage when using an auto property (C# will create one for us).</li>
+			<li>Change the property definition to use the auto property syntax:</li>
+<pre class="prettyprint codeblock">
+public float Answer { get; set; }
+</pre>
+			<li>Modify all your usages of the field to use the property again, so:
+<pre class="prettyprint codeblock">
+public void Add(float number1, float number2)
+{
+    answer = number1 + number2;
+}
+</pre>
+			becomes:
+<pre class="prettyprint codeblock">
+public void Add(float number1, float number2)
+{
+    <span class="highlight">Answer</span> = number1 + number2;
+}
+</pre>
+			</li>
+			<li>Build the program - it should compile and run correctly, however we have again exposed our property to allow outside classes to change the <code>Answer</code> value. We can fix this by adjusting the <em>visibility</em> of the property setter. See if you can work out the syntax, check the slides if you'd like a hint, or look at the code below.</li>
+
+<p><a href="#" onclick="toggleCode(this,'privateProp');return false;" class="uiitem">Show Code</a><div id="privateProp" style="display:none;">			
+<pre class="prettyprint codeblock">
+public float Answer { get; <span class="highlight">private</span> set; }
+</pre></div></p>
+
+			<li>Build and run the application a final time to verify it works properly.</li>
+		</ol>
+
+		<!-- - - - - - - - - Summary - - - - - - - - -->
+
+		<h1>Summary</h1> 
+		<p>
+		In this lab exercise, you modified your <code>Calculator</code> class to utilize properties instead of fields to expose it's data. This change has very little impact on the client (<code>Main</code>) code using the class, but provides much better control over what can use the data and how it is used.
+		</p>
+
+		<div class="align-right">
+			<a href="../Start%20Here.html">Go Back</a>
+		</div>
+
+</section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+   <footer>Copyright (C) 2018 Xamarin Inc., Microsoft.</footer>
+</body>
+</html>
